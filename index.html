@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Machine Operation Report</title>
+    <title>รายงานการทำงานเครื่องจักร</title>
     <style>
         :root {
             --primary: #0056b3;
@@ -119,6 +119,10 @@
         .btn-range-add { background: none; color: var(--primary); border: 1px dashed var(--primary); font-size: 12px; padding: 5px 8px; align-self: flex-start; }
         .btn-range-add:hover { background: #e7f1ff; }
 
+        .btn-sheets { background: #1a73e8; color: white; width: 100%; margin-top: 10px; }
+        .btn-sheets:hover { background: #1558b0; }
+        .btn-sheets:disabled { background: #8ab4f8; cursor: wait; }
+
         /* Output Box */
         .output-box { margin-top: 25px; padding: 15px; background: #222; color: #00ff00; border-radius: 8px; font-family: monospace; font-size: 13px; display: none; }
 
@@ -130,7 +134,7 @@
 <body>
 
 <div class="container">
-    <h2>MACHINE OPERATION REPORT</h2>
+    <h2>รายงานการทำงานเครื่องจักร<br><small style="font-size: 13px; font-weight: normal; color: #6c757d;">Machine Operation Report</small></h2>
 
     <!-- หัวข้อที่ 1 -->
     <div class="section-box">
@@ -157,7 +161,7 @@
             <div class="form-group">
                 <label>วันที่</label>
                 <div class="date-wrap">
-                    <input type="text" id="report-date" placeholder="dd/mm/yyyy" maxlength="10" inputmode="numeric" autocomplete="off">
+                    <input type="text" id="report-date" placeholder="วว/ดด/ปปปป" maxlength="10" inputmode="numeric" autocomplete="off">
                     <button type="button" class="btn-date" id="btn-date-pick" title="เลือกจากปฏิทิน">📅</button>
                     <div class="cal-pop" id="cal-pop"></div>
                 </div>
@@ -173,17 +177,17 @@
 
             <div class="grid-3">
                 <div class="form-group">
-                    <label>Mold No.</label>
+                    <label>เลขแม่พิมพ์ (Mold No.)</label>
                     <input type="text" class="input-mold" placeholder="เช่น MOLD-A01">
                 </div>
                 <div class="form-group">
-                    <label>Request No.</label>
+                    <label>เลขที่ใบขอ (Request No.)</label>
                     <input type="text" class="input-request" placeholder="เช่น REQ-102">
                 </div>
                 <div class="form-group">
-                    <label>Work</label>
+                    <label>ประเภทงาน (Work)</label>
                     <select class="input-work">
-                        <option value="">-- เลือก Work --</option>
+                        <option value="">-- เลือกประเภทงาน --</option>
                         <option value="R">R</option>
                         <option value="N">N</option>
                         <option value="O">O</option>
@@ -192,36 +196,36 @@
             </div>
 
             <div class="form-group" style="margin-top: 5px;">
-                <label>Work Detail (รายละเอียดงาน)</label>
+                <label>รายละเอียดงาน (Work Detail)</label>
                 <input type="text" class="input-detail" placeholder="เช่น cutting insert">
             </div>
 
             <div class="time-row-container">
                 <div class="form-group">
-                    <label class="label-sub">1. Auto Run (เวลา)</label>
+                    <label class="label-sub">1. เวลาเดินเครื่องอัตโนมัติ (Auto Run)</label>
                     <div class="range-field">
                         <div class="range-list"></div>
                         <button type="button" class="btn-range-add">+ เพิ่มช่วงเวลา</button>
                         <input type="hidden" class="time-autorun">
                     </div>
-                    <label class="label-minus">− เวลา Stop ของ Auto Run (หักออกจากเวลาด้านบน)</label>
+                    <label class="label-minus">− เวลาหยุดของเครื่องเดินอัตโนมัติ (หักออกจากเวลาด้านบน)</label>
                     <div class="range-field" data-optional="1">
                         <div class="range-list"></div>
-                        <button type="button" class="btn-range-add">+ เพิ่มเวลา Stop</button>
+                        <button type="button" class="btn-range-add">+ เพิ่มเวลาหยุด</button>
                         <input type="hidden" class="time-autorun-stop">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="label-sub">2. Operator (เวลา)</label>
+                    <label class="label-sub">2. เวลาพนักงานคุมเครื่อง (Operator)</label>
                     <div class="range-field">
                         <div class="range-list"></div>
                         <button type="button" class="btn-range-add">+ เพิ่มช่วงเวลา</button>
                         <input type="hidden" class="time-operator">
                     </div>
-                    <label class="label-minus">− เวลา Stop / พัก ของ Operator (หักออกจากเวลาด้านบน)</label>
+                    <label class="label-minus">− เวลาหยุด / พัก ของพนักงาน (หักออกจากเวลาด้านบน)</label>
                     <div class="range-field" data-optional="1">
                         <div class="range-list"></div>
-                        <button type="button" class="btn-range-add">+ เพิ่มเวลา Stop / พัก</button>
+                        <button type="button" class="btn-range-add">+ เพิ่มเวลาหยุด / พัก</button>
                         <input type="hidden" class="time-operator-stop">
                     </div>
                 </div>
@@ -229,7 +233,7 @@
 
             <div class="stop-row-container">
                 <div class="form-group">
-                    <label class="label-stop">3. Problem of stop M/C (เวลา + รายละเอียด)</label>
+                    <label class="label-stop">3. เครื่องหยุด / ปัญหา (Problem of stop M/C) เวลา + รายละเอียด</label>
                     <div class="range-field stop-field" data-detail="1">
                         <div class="range-list"></div>
                         <button type="button" class="btn-range-add">+ เพิ่มช่วงเวลา</button>
@@ -249,9 +253,12 @@
     <!-- ปุ่มดาวน์โหลด Excel (ฟอร์มต้นฉบับ) -->
     <button type="button" class="btn-excel" id="btn-export-xlsx">📥 ดาวน์โหลดเป็นไฟล์ Excel (ฟอร์มเดิม)</button>
 
+    <!-- ปุ่มส่งเข้า Google Sheets -->
+    <button type="button" class="btn-sheets" id="btn-send-sheets">📤 ส่งข้อมูล + บันทึกไฟล์ Excel ลง Google Drive</button>
+
     <!-- กล่องแสดงผลลัพธ์ -->
     <div class="output-box" id="output-preview">
-        <strong>[SUCCESS] โครงสร้างข้อมูลที่ระบบได้รับ:</strong>
+        <strong>[สำเร็จ] ข้อมูลที่ระบบได้รับ:</strong>
         <pre id="json-result" style="white-space: pre-wrap; margin-top: 10px;"></pre>
     </div>
 </div>
@@ -405,7 +412,7 @@
     document.getElementById('btn-submit-report').addEventListener('click', function () {
         if (!rangesOk()) return;
         if (!parseDate(dateInput.value)) {
-            alert('กรุณากรอกวันที่ให้ถูกต้อง ในรูปแบบ dd/mm/yyyy เช่น 25/12/2026');
+            alert('กรุณากรอกวันที่ให้ถูกต้อง ในรูปแบบ วว/ดด/ปปปป เช่น 25/12/2026');
             dateInput.focus();
             return;
         }
@@ -593,12 +600,12 @@
         return new Blob(chunks.concat(cen, [e]), { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     }
 
-    document.getElementById('btn-export-xlsx').addEventListener('click', function () {
-        if (!rangesOk()) return;
+    function makeXlsx() {
+        if (!rangesOk()) return null;
         var d = parseDate(dateInput.value);
-        if (!d) { alert('กรุณากรอกวันที่ให้ถูกต้อง ในรูปแบบ dd/mm/yyyy'); dateInput.focus(); return; }
+        if (!d) { alert('กรุณากรอกวันที่ให้ถูกต้อง ในรูปแบบ วว/ดด/ปปปป'); dateInput.focus(); return null; }
         var mi = document.getElementById('machine-name').selectedIndex - 1;
-        if (mi < 0) { alert('กรุณาเลือกเครื่องจักรก่อน'); return; }
+        if (mi < 0) { alert('กรุณาเลือกเครื่องจักรก่อน'); return null; }
 
         var grid = buildGrid(readReport());
         var serial = Math.round((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(1899, 11, 30)) / 86400000);
@@ -630,12 +637,18 @@
             files.push(f);
         });
 
-        var blob = makeZip(files), a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = MACH[mi].c.trim() + '_' + dateInput.value.replace(/\//g, '-') + '.xlsx';
+        return { blob: makeZip(files), name: MACH[mi].c.trim() + '_' + dateInput.value.replace(/\//g, '-') + '.xlsx', warns: grid.warns };
+    }
+
+    document.getElementById('btn-export-xlsx').addEventListener('click', function () {
+        var r = makeXlsx();
+        if (!r) return;
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(r.blob);
+        a.download = r.name;
         document.body.appendChild(a); a.click(); document.body.removeChild(a);
         setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
-        if (grid.warns.length) alert('ดาวน์โหลดแล้ว แต่มีข้อสังเกต:\n\n' + grid.warns.join('\n'));
+        if (r.warns.length) alert('ดาวน์โหลดแล้ว แต่มีข้อสังเกต:\n\n' + r.warns.join('\n'));
     });
 
     // ===== เลือกเวลาแบบ 24 ชั่วโมง (ทีละ 30 นาที ตรงกับตาราง Excel) เพิ่มได้หลายช่วงต่อช่อง =====
@@ -714,6 +727,84 @@
         if (f) syncField(f);
     });
     initItem(container.querySelector('.work-item'));
+
+    // ===== ส่งข้อมูลเข้า Google Sheets (ผ่าน Google Apps Script) =====
+    var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwIYUIVn-0zyAD0nzXWN6_OiRfbmfXOSnxHht7dYq1ijnmU9Okdc1-g4AmvyNgAog_5/exec';                 // วาง Web app URL ของ Apps Script (ลงท้ายด้วย /exec)
+    var SHEETS_TOKEN = 'c646e0949f4fc99a';      // ต้องตรงกับ TOKEN ในสคริปต์
+    var pendingId = null;                // รหัสการส่ง ใช้กันข้อมูลซ้ำเมื่อกดส่งซ้ำ
+
+    function blobToBase64(blob) {
+        return new Promise(function (resolve, reject) {
+            var fr = new FileReader();
+            fr.onload = function () { resolve(String(fr.result).split(',')[1]); };
+            fr.onerror = function () { reject(new Error('อ่านไฟล์ Excel ไม่สำเร็จ')); };
+            fr.readAsDataURL(blob);
+        });
+    }
+
+    function hrsOf(list) {
+        var set = {}, n = 0;
+        list.forEach(function (k) { if (!set[k]) { set[k] = 1; n++; } });
+        return n / 2;
+    }
+
+    document.getElementById('btn-send-sheets').addEventListener('click', function () {
+        if (!rangesOk()) return;
+        if (!SHEETS_URL) { alert('ยังไม่ได้ตั้งค่าลิงก์ Google Sheets ในฟอร์ม'); return; }
+        var d = parseDate(dateInput.value);
+        if (!d) { alert('กรุณากรอกวันที่ให้ถูกต้อง ในรูปแบบ วว/ดด/ปปปป'); dateInput.focus(); return; }
+        var mi = document.getElementById('machine-name').selectedIndex - 1;
+        if (mi < 0) { alert('กรุณาเลือกเครื่องจักรก่อน'); return; }
+
+        var data = readReport(), g = buildGrid(data);
+        if (g.warns.length && !confirm('มีข้อสังเกต:\n\n' + g.warns.join('\n') + '\n\nต้องการส่งต่อหรือไม่?')) return;
+
+        var rows = [];
+        data.items.forEach(function (w) {
+            if (!(w.requestNo || w.moldNo || w.workDetail || w.work || w.autoRun || w.operator || w.stops.length)) return;
+            var ar = minus(slotsOf(w.autoRun).slots, slotsOf(w.autoRunStop).slots);
+            var op = minus(slotsOf(w.operator).slots, slotsOf(w.operatorStop).slots);
+            var st = [];
+            w.stops.forEach(function (x) { st = st.concat(slotsOf(x.time).slots); });
+            rows.push({
+                no: w.no, requestNo: w.requestNo, moldNo: w.moldNo, work: w.work, workDetail: w.workDetail,
+                autoRun: w.autoRun, autoRunStop: w.autoRunStop, operator: w.operator, operatorStop: w.operatorStop,
+                stops: w.stops.map(function (x) { return x.time + (x.reason ? ' (' + x.reason + ')' : ''); }).join('; '),
+                autoRunHr: hrsOf(ar), operatorHr: hrsOf(op), stopHr: hrsOf(st)
+            });
+        });
+        if (!rows.length) { alert('ยังไม่มีข้อมูลรายการงานให้ส่ง'); return; }
+
+        pendingId = pendingId || (Date.now().toString(36) + Math.random().toString(36).slice(2, 8));
+        var payload = {
+            token: SHEETS_TOKEN, id: pendingId, submittedAt: new Date().toISOString(),
+            date: dateInput.value, machineNo: MACH[mi].c.trim(), machine: MACH[mi].n.replace(/\s+/g, ' ').trim(),
+            operatorName: data.operatorName, rows: rows,
+            machineRaw: MACH[mi].n,
+            grid: g.rows.map(function (r) { return { B: r.B, C: r.C, D: r.D, E: r.E, F: r.F, G: r.G, H: r.H, I: r.I, K: r.K }; })
+        };
+
+        var xl = makeXlsx();
+        if (!xl) return;
+
+        var btn = this, label = btn.textContent;
+        btn.disabled = true; btn.textContent = 'กำลังส่ง...';
+        blobToBase64(xl.blob)
+            .then(function (b) {
+                payload.xlsx = b; payload.fileName = xl.name;
+                return fetch(SHEETS_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+            })
+            .then(function (r) { return r.json(); })
+            .then(function (res) {
+                if (!res.ok) throw new Error(res.error || 'ไม่ทราบสาเหตุ');
+                pendingId = null;
+                alert(res.duplicate ? 'ข้อมูลชุดนี้ถูกส่งไปแล้วก่อนหน้านี้' : 'ส่งข้อมูลเรียบร้อยแล้ว (' + rows.length + ' รายการ)\nบันทึกไฟล์ Excel ลง Google Drive แล้ว');
+            })
+            .catch(function (err) {
+                alert('ส่งไม่สำเร็จ: ' + err.message + '\nตรวจอินเทอร์เน็ตแล้วกดส่งอีกครั้งได้ ระบบกันข้อมูลซ้ำให้');
+            })
+            .then(function () { btn.disabled = false; btn.textContent = label; });
+    });
 
     refresh();
 </script>
